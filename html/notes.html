@@ -12,20 +12,16 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-dark " style="background-color: #26A3B4;">
     <a class="navbar-brand" href="/">Note Taker</a>
     <a href="#" dir="rtl" style="color: white;"><i class="fad fa-pen"></i>Save</a>
   </nav>
    <div class="row">
-       <div class="card col-12 col-lg-4 col-xl-4" id="oldNotes" style="background-color: aqua;">
-            <div style="position: relative; background-color: thistle; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
+       <div class="card col-12 col-lg-4 col-xl-4" id="oldNotes" style="background-color: white; border-right: 1px solid black;">
+            <!-- <div style="position: relative; background-color: white; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
                 <p style="display: inline; margin-top: 25px; font-size: large;">Go to the bank</p>
-                <a href="#" style="position: absolute; right: 5px; top: 3px;" class="fas fa-trash-alt"></a>
-            </div> <!--end of task-->
-            <div style="position: relative; background-color: thistle; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
-              <p style="display: inline; margin-top: 25px;">Go to the bank</p>
-              <a href="#" style="position: absolute; right: 5px; top: 3px;" class="fas fa-trash-alt"></a>
-          </div> <!--end of task-->
+                <a href="#" style="position: absolute; right: 5px; top: 3px; color: #26A3B4;" class="fas fa-trash-alt" onclick="deleteNote(5)"></a>
+            </div> end of task -->
         </div> <!--end of note list section-->
         <div class="col" id="newNote" style="background-color: bisque;">
            <div style="position: relative; background-color: tomato;">
@@ -42,16 +38,42 @@
    </div> <!--end of row-->
   <script>
     async function getNotes(){
+
+      document.querySelector('#oldNotes').innerHTML = "";
+
       const notesData = await fetch('/api/notes').then(r => r.json())
       console.log(notesData);
       // notesData[0].noteTitle
-      document.querySelector('#oldNotes').innerHTML += `<div style="position: relative; background-color: thistle; border-bottom: 1px solid black; margin-bottom: 5px;">
-                <p style="display: inline;">${notesData[0].noteTitle}</p>
-                <a href="#" style="position: absolute; right: 1px;">Delete</a>
+      for(i=0; i<notesData.length; i++)
+      {
+      document.querySelector('#oldNotes').innerHTML += `<div style="position: relative; background-color: white; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
+                <p style="display: inline; margin-top: 25px; font-size: large;">${notesData[i].noteTitle}</p>
+                <a href="#" style="position: absolute; right: 5px; top: 3px; color: #26A3B4;" class="fas fa-trash-alt" onclick="deleteNote(${notesData[i].id})"></a>
             </div> <!--end of task-->`
+      }
     }
 
     getNotes()
+
+
+    function postUrl(url, data = {}) {
+            const postData = {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'post',
+                body: JSON.stringify(data)
+            }
+            return fetch(url, postData).then(res => res.json())
+        }
+
+    function deleteNote(e){
+      alert(`your number was ${e}`)
+
+      let tableID = {id: e}
+      postUrl(`/api/notes/delete`, tableID)
+      // const notesData = await fetch(`/api/notes/${e}`).then(r => r.json())
+
+      getNotes()
+    }
   </script>
 </body>
 
