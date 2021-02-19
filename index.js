@@ -17,6 +17,8 @@ app.get('/api/notes', function (req, res) {
     res.send(noteList);
 });
 
+// app.get('/api/note/display')
+
 app.post('/api/notes/delete', function (req, res) {
     console.log('table id req.body: ', req.body.id);
     const deleteTableId = req.body.id;
