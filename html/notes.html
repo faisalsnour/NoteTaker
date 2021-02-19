@@ -16,7 +16,7 @@
     <a class="navbar-brand" href="/">Note Taker</a>
     <div id="icons" dir="rtl">
     <a href="#" style="color: white; display: inline; margin-left: 10px;"><i class="far fa-edit"></i></a>
-    <a href="#" style="color: white; display: inline;"><i class="far fa-save"></i></a>
+    <a href="#" style="color: white; display: inline;" onclick="saveNote()"><i class="far fa-save"></i></a>
   </div>
   </nav>
    <div class="row">
@@ -30,10 +30,10 @@
            <div style="position: relative; background-color: tomato;">
                 <form>
                     <div class="mb-3">
-                        <input type="text" class="form-control"  placeholder="Enter your note title">
+                        <input type="text" id="newNoteTitle" class="form-control"  placeholder="Enter your note title">
                     </div>
                     <div class="mb-3">
-                        <textarea class="form-control" rows="5" placeholder="Enter more info"></textarea>
+                        <textarea class="form-control" id="newNoteText" rows="5" placeholder="Enter more info"></textarea>
                     </div>
                 </form>
             </div>
@@ -77,6 +77,20 @@
 
       getNotes()
     }
+
+    function saveNote(){
+
+      const newTitle = document.querySelector('#newNoteTitle').value
+
+      const newText =  document.querySelector('#newNoteTitle').value
+
+      let newNote = {noteTitle: newTitle , noteText: newText}
+
+      alert('you want to save this?')
+
+      postUrl(`/api/note/add`, newNote)
+    }
+
   </script>
 </body>
 
