@@ -80,15 +80,24 @@
 
     function saveNote(){
 
+      const newID = Math.floor(Math.random()*1000000)
+
       const newTitle = document.querySelector('#newNoteTitle').value
 
       const newText =  document.querySelector('#newNoteTitle').value
 
-      let newNote = {noteTitle: newTitle , noteText: newText}
+      let newNote = {id:newID, noteTitle: newTitle , noteText: newText}
 
       alert('you want to save this?')
 
       postUrl(`/api/note/add`, newNote)
+
+      getNotes()
+
+      document.querySelector('#newNoteTitle').value = "";
+      document.querySelector('#newNoteText').value = "";
+
+      
     }
 
   </script>
