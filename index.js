@@ -16,8 +16,23 @@ let noteList = [{ id:0, noteTitle: 'Go to the store', noteText: 'I need to go th
 app.get('/api/notes', function (req, res) {
     res.send(noteList);
 });
-
-// app.get('/api/note/display')
+var getIndex;
+// review this tomorrow and fix it, just run it becuse I am close to fix it
+app.get('/api/:id', function(req,res){
+    const targetedDisplayID = req.params.id
+    console.log(targetedDisplayID)
+    
+    for(i=0; i<noteList.length; i++){
+        if(noteList[i].id === JSON.parse(targetedDisplayID)){
+            console.log("found it")
+            console.log(`i = ${i}`)
+            getIndex = i;
+            console.log(`getIndex = ${getIndex}`)
+        }
+    }  
+    console.log(`the clicked element has index: ${JSON.stringify(noteList[getIndex])}`)
+    console.log(noteList[1])
+})
 
 app.post('/api/notes/delete', function (req, res) {
     console.log('table id req.body: ', req.body.id);
