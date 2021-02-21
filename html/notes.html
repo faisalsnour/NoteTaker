@@ -25,14 +25,14 @@
                 <a href="#" style="position: absolute; right: 5px; top: 3px; color: #26A3B4;" class="fas fa-trash-alt" onclick="deleteNote(5)"></a>
             </div> end of task -->
     </div> <!--end of note list section-->
-    <div class="col" id="newNote" style="background-color: bisque;">
-      <div style="position: relative; background-color: tomato;">
+    <div class="col" id="newNote" style="background-color: white;">
+      <div style="position: relative; background-color: white">
         <form>
           <div class="mb-3">
-            <input type="text" id="newNoteTitle" class="form-control" onkeyup="showSaveButton()"  placeholder="Enter your note title">
+            <input type="text" id="newNoteTitle" class="form-control" onkeyup="showSaveButton()"  placeholder="Enter your note title here" style="border: 0px;">
           </div>
           <div class="mb-3">
-            <textarea class="form-control" id="newNoteText" rows="5" onkeyup="showSaveButton()" placeholder="Enter more info"></textarea>
+            <textarea class="form-control" id="newNoteText" rows="5" style="border: 0px;" onkeyup="showSaveButton()" placeholder="Enter your note text here"></textarea>
           </div>
         </form>
       </div>
@@ -68,7 +68,8 @@
 
   // function to delete note by passing NoteID
   function deleteNote(e){
-    confirm(`Are you sure you want to delete this note?`)
+
+    if(confirm(`Are you sure you want to delete this note?`)){
 
     let tableID = {id: e}
     postUrl(`/api/notes/delete`, tableID)
@@ -77,6 +78,7 @@
     document.querySelector('#newNoteText').value = "";
   
     getNotes()
+    }
   }
 
   // function to add and save new note
