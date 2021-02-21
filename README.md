@@ -9,16 +9,16 @@ To buid an application that can be used to write and save notes using Express.js
 This application does the following:
 
 1. Uses Express.js back-end and JSON file to store and retrieve notes data.
-2.
-3.
+2. Uses Heroku for deploying the entire application.
+3. Enable users to view, enter and delete notes (title and text)
 
 ## Screenshots:
 
 The following pictures show the application's appearance and functionality:
 
-![Screen shows ...](/Assets/.png)
+![Screen shows the homepage of the application](/Assets/homepage.png)
 
-![Screen shows ...](/Assets/.png)
+![Screen shows an empty note page and empty note fields](/Assets/emptyNote.png)
 
 ![Screen shows ...](/Assets/.png)
 
