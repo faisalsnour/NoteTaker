@@ -20,7 +20,8 @@ var getIndex;
 // review this tomorrow and fix it, just run it becuse I am close to fix it
 app.get('/api/:id', function(req,res){
     const targetedDisplayID = req.params.id
-    console.log(targetedDisplayID)
+    console.log(`value of targetedDisplayID =  ${targetedDisplayID}`)
+    console.log("type of targetedDisplayID" + typeof(targetedDisplayID))
     
     for(i=0; i<noteList.length; i++){
         if(noteList[i].id === JSON.parse(targetedDisplayID)){
@@ -28,10 +29,13 @@ app.get('/api/:id', function(req,res){
             console.log(`i = ${i}`)
             getIndex = i;
             console.log(`getIndex = ${getIndex}`)
+            // to send it to the variable on html file 
         }
     }  
     console.log(`the clicked element has index: ${JSON.stringify(noteList[getIndex])}`)
-    console.log(noteList[1])
+    // to send it to the variable on html file 
+    res.send(noteList[getIndex])
+    //console.log(noteList[1])
 })
 
 app.post('/api/notes/delete', function (req, res) {
