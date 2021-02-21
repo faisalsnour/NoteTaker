@@ -68,10 +68,6 @@ app.post('/api/note/add', function(req,res){
     
     let newNote = req.body;
 
-    console.log(`note id is ${newNote.id} 
-     title is : ${newNote.noteTitle} 
-     message is: ${newNote.noteText}`)
-
      console.log(newNote)
 
      noteList.push(newNote)

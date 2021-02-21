@@ -11,15 +11,15 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-dark " style="background-color: #26A3B4;">
+  <nav class="navbar navbar-dark" style="background-color: #26A3B4; box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
     <a class="navbar-brand" href="/">Note Taker</a>
     <div id="icons" dir="rtl">
     <a href="#" style="color: white; display: inline; margin-left: 10px;" onclick="clearNoteFields()"><i class="far fa-edit"></i></a>
     <a href="#" style="color: white; display: inline;" id="btnSave" onclick="saveNote()" class="d-none"><i class="far fa-save"></i></a>
   </div>
   </nav>
-  <div class="row">
-    <div class="card col-12 col-lg-4 col-xl-4" id="oldNotes" style="background-color: white; border-right: 1px solid black;">
+  <div class="row" style="margin-top: 30px;">
+    <div class="card col-12 col-lg-4 col-xl-4" id="oldNotes" style="background-color: white; border-right: 1px solid black; border-top: 0px; border-bottom: 0px; border-radius: 0px;">
             <!-- <div style="position: relative; background-color: white; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
                 <p style="display: inline; margin-top: 25px; font-size: large;" onclick="displayNote(e)">Go to the bank</p>
                 <a href="#" style="position: absolute; right: 5px; top: 3px; color: #26A3B4;" class="fas fa-trash-alt" onclick="deleteNote(5)"></a>
@@ -91,8 +91,6 @@
     const newText =  document.querySelector('#newNoteText').value
 
     let newNote = {id:newID, noteTitle: newTitle , noteText: newText}
-
-    alert('you want to save this?')
 
     postUrl(`/api/note/add`, newNote)
 
