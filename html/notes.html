@@ -84,7 +84,7 @@
 
       const newTitle = document.querySelector('#newNoteTitle').value
 
-      const newText =  document.querySelector('#newNoteTitle').value
+      const newText =  document.querySelector('#newNoteText').value
 
       let newNote = {id:newID, noteTitle: newTitle , noteText: newText}
 
@@ -109,8 +109,12 @@
 
       alert(`you clicked this ${e}`);
       const notesData = await fetch(`/api/${e}`).then(r => r.json())
-
       console.log(`note message= ${notesData.noteTitle}`)
+
+      document.querySelector('#newNoteTitle').value = notesData.noteTitle;
+      document.querySelector('#newNoteText').value = notesData.noteText;
+
+
 
     }
   </script>
