@@ -20,7 +20,11 @@ The following pictures show the application's appearance and functionality:
 
 ![Screen shows an empty note page and empty note fields](/Assets/emptyNote.png)
 
-![Screen shows ...](/Assets/.png)
+![Screen shows two list of notes after they are added](/Assets/twoNotesList.png)
+
+![Screen shows details of notes; title and text](/Assets/displayNoteDetails.png)
+
+![Screen shows confirm message displayed before deleting a note](/Assets/deleteNote.png)
 
 ## Link to a deployed application:
 

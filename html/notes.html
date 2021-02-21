@@ -51,7 +51,7 @@
       for(i=0; i<notesData.length; i++)
       {
       document.querySelector('#oldNotes').innerHTML += `<div style="position: relative; background-color: white; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
-                <p style="display: inline; margin-top: 25px; font-size: large;" onclick="displayNote(${notesData[i].id})">${notesData[i].noteTitle}</p>
+                <a href="#" style="display: inline; margin-top: 25px; font-size: large; color:black;" onclick="displayNote(${notesData[i].id})">${notesData[i].noteTitle}</a>
                 <a href="#" style="position: absolute; right: 5px; top: 3px; color: #26A3B4;" class="fas fa-trash-alt" onclick="deleteNote(${notesData[i].id})"></a>
             </div> <!--end of task-->`
       }
