@@ -10,12 +10,22 @@ app.use(express.static('html'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// let noteList = JSON.parse(fs.readFileSync('./.noteList.json'))
-let noteList = [{ id:0, noteTitle: 'Go to the store', noteText: 'I need to go there and do something' }, {id:5, noteTitle: 'Go to the bank', noteText: 'Request a new cheque book' }, {id:2, noteTitle: 'Go to the doctor', noteText: 'Need to get checkup your blood pressure' }, {id:8, noteTitle: 'Go to visit Grandma', noteText: 'Go to the hospital and visit your grandmother' }];
+let savedNoteList = './.noteList.json';
+
+
+
+// let noteList = [{ id:0, noteTitle: 'Go to the store', noteText: 'I need to go there and do something' }, {id:5, noteTitle: 'Go to the bank', noteText: 'Request a new cheque book' }, {id:2, noteTitle: 'Go to the doctor', noteText: 'Need to get checkup your blood pressure' }, {id:8, noteTitle: 'Go to visit Grandma', noteText: 'Go to the hospital and visit your grandmother' }];
+
+let noteList = fs.existsSync(savedNoteList) ?
+JSON.parse( fs.readFileSync(savedNoteList) ) : []
+
+console.log(noteList)
 
 app.get('/api/notes', function (req, res) {
     res.send(noteList);
 });
+
+
 var getIndex;
 // review this tomorrow and fix it, just run it becuse I am close to fix it
 app.get('/api/:id', function(req,res){
@@ -25,6 +35,7 @@ app.get('/api/:id', function(req,res){
     
     for(i=0; i<noteList.length; i++){
         if(noteList[i].id === JSON.parse(targetedDisplayID)){
+        //  if(noteList[i].id === targetedDisplayID){
             console.log("found it")
             console.log(`i = ${i}`)
             getIndex = i;
@@ -33,6 +44,11 @@ app.get('/api/:id', function(req,res){
         }
     }  
     console.log(`the clicked element has index: ${JSON.stringify(noteList[getIndex])}`)
+
+    // NA clear noteList and get a new version of it 
+    noteList = [];
+    noteList =  JSON.parse( fs.readFileSync(savedNoteList))
+
     // to send it to the variable on html file 
     res.send(noteList[getIndex])
     //console.log(noteList[1])
@@ -50,6 +66,7 @@ app.post('/api/notes/delete', function (req, res) {
     // add this now
     // const newNoteData =  noteList.splice(deleteTableId,1)
     noteList.splice(targetedIndex,1)
+    fs.writeFileSync( savedNoteList, JSON.stringify( noteList ) )
     // add this now, to clear the existing data
     // noteList = []
     // add this now,
@@ -74,6 +91,10 @@ app.post('/api/note/add', function(req,res){
      console.log(newNote)
 
      noteList.push(newNote)
+     fs.writeFileSync( savedNoteList, JSON.stringify( noteList ) )
+
+
+
 
 })
 
