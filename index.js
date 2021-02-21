@@ -2,7 +2,14 @@ const express = require('express');
 const app = express();
 const fs = require('fs')
 
-const PORT = 3000; // for Heroku ? process.env.PORT || 3000
+// const PORT = 3000; // for Heroku ? process.env.PORT || 3000
+var PORT = process.env.PORT || 3001;
+
+// this part is added to make heroku works only 
+// app.get("/", function(req, res) {
+//     res.json(path.join(__dirname, "public/index.html"));
+//   });
+
 
 // will share any static html files with the browser
 app.use(express.static('html'));
