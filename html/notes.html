@@ -8,7 +8,6 @@
   <title>Note Taker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.3/flatly/bootstrap.min.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
-
 </head>
 
 <body>
@@ -19,25 +18,25 @@
     <a href="#" style="color: white; display: inline;" id="btnSave" onclick="saveNote()" class="d-none"><i class="far fa-save"></i></a>
   </div>
   </nav>
-   <div class="row">
-       <div class="card col-12 col-lg-4 col-xl-4" id="oldNotes" style="background-color: white; border-right: 1px solid black;">
+  <div class="row">
+    <div class="card col-12 col-lg-4 col-xl-4" id="oldNotes" style="background-color: white; border-right: 1px solid black;">
             <!-- <div style="position: relative; background-color: white; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
                 <p style="display: inline; margin-top: 25px; font-size: large;" onclick="displayNote(e)">Go to the bank</p>
                 <a href="#" style="position: absolute; right: 5px; top: 3px; color: #26A3B4;" class="fas fa-trash-alt" onclick="deleteNote(5)"></a>
             </div> end of task -->
-        </div> <!--end of note list section-->
-        <div class="col" id="newNote" style="background-color: bisque;">
-           <div style="position: relative; background-color: tomato;">
-                <form>
-                    <div class="mb-3">
-                        <input type="text" id="newNoteTitle" class="form-control" onkeyup="showSaveButton()"  placeholder="Enter your note title">
-                    </div>
-                    <div class="mb-3">
-                        <textarea class="form-control" id="newNoteText" rows="5" onkeyup="showSaveButton()" placeholder="Enter more info"></textarea>
-                    </div>
-                </form>
-            </div>
-        </div> <!--end of new note section-->
+    </div> <!--end of note list section-->
+    <div class="col" id="newNote" style="background-color: bisque;">
+      <div style="position: relative; background-color: tomato;">
+        <form>
+          <div class="mb-3">
+            <input type="text" id="newNoteTitle" class="form-control" onkeyup="showSaveButton()"  placeholder="Enter your note title">
+          </div>
+          <div class="mb-3">
+            <textarea class="form-control" id="newNoteText" rows="5" onkeyup="showSaveButton()" placeholder="Enter more info"></textarea>
+          </div>
+        </form>
+      </div>
+    </div> <!--end of new note section-->
    </div> <!--end of row-->
   <script>
     async function getNotes(){
@@ -46,7 +45,7 @@
 
       const notesData = await fetch('/api/notes').then(r => r.json())
       console.log(notesData);
-      // notesData[0].noteTitle
+      
       for(i=0; i<notesData.length; i++)
       {
       document.querySelector('#oldNotes').innerHTML += `<div style="position: relative; background-color: white; border-bottom: 1px solid black; margin-bottom: 5px; margin-top: 5px; height: 40px;">
@@ -56,85 +55,82 @@
       }
     }
 
+  getNotes()
+
+  function postUrl(url, data = {}) {
+    const postData = {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'post',
+      body: JSON.stringify(data)
+      }
+      return fetch(url, postData).then(res => res.json())
+    }
+
+  // function to delete note by passing NoteID
+  function deleteNote(e){
+    confirm(`Are you sure you want to delete this note?`)
+
+    let tableID = {id: e}
+    postUrl(`/api/notes/delete`, tableID)
+
+    document.querySelector('#newNoteTitle').value = "";
+    document.querySelector('#newNoteText').value = "";
+  
+    getNotes()
+  }
+
+  // function to add and save new note
+  function saveNote(){
+
+    const newID = Math.floor(Math.random()*1000000)
+
+    const newTitle = document.querySelector('#newNoteTitle').value
+
+    const newText =  document.querySelector('#newNoteText').value
+
+    let newNote = {id:newID, noteTitle: newTitle , noteText: newText}
+
+    alert('you want to save this?')
+
+    postUrl(`/api/note/add`, newNote)
+
     getNotes()
 
-
-    function postUrl(url, data = {}) {
-            const postData = {
-                headers: { 'Content-Type': 'application/json' },
-                method: 'post',
-                body: JSON.stringify(data)
-            }
-            return fetch(url, postData).then(res => res.json())
-        }
-
-    function deleteNote(e){
-      alert(`your number was ${e}`)
-
-      let tableID = {id: e}
-      postUrl(`/api/notes/delete`, tableID)
-      // const notesData = await fetch(`/api/notes/${e}`).then(r => r.json())
-
-      getNotes()
-    }
-
-    function saveNote(){
-
-      const newID = Math.floor(Math.random()*1000000)
-
-      const newTitle = document.querySelector('#newNoteTitle').value
-
-      const newText =  document.querySelector('#newNoteText').value
-
-      let newNote = {id:newID, noteTitle: newTitle , noteText: newText}
-
-      alert('you want to save this?')
-
-      postUrl(`/api/note/add`, newNote)
-
-      getNotes()
-
-      document.querySelector('#newNoteTitle').value = "";
-      document.querySelector('#newNoteText').value = "";
-
-      document.querySelector('#newNoteTitle').innerHTML.style.color = "purple";
+    document.querySelector('#newNoteTitle').value = "";
+    document.querySelector('#newNoteText').value = "";
+    document.querySelector('#newNoteTitle').innerHTML.style.color = "purple";
       
+  }
+
+  // function to clear note entry filed by clicking on edit button
+  function clearNoteFields(){
+    document.querySelector('#newNoteTitle').value = "";
+    document.querySelector('#newNoteText').value = "";
+  }
+
+  // function to display a certain note by passing noteID after clicking on note text from the list
+  async function displayNote(e){
+
+    const notesData = await fetch(`/api/${e}`).then(r => r.json())
+    // console.log(`note message= ${notesData.noteTitle}`)
+
+    document.querySelector('#newNoteTitle').value = notesData.noteTitle;
+    document.querySelector('#newNoteText').value = notesData.noteText;
+  }
+
+  // to hide/display save button 
+  function showSaveButton(){
+
+    let noteTitleValue = document.querySelector('#newNoteTitle').value;
+    let noteMsgValue = document.querySelector('#newNoteText').value;
+
+    if(noteTitleValue !=="" && noteMsgValue !== ""){
+      document.querySelector('#btnSave').classList.remove('d-none');
     }
-
-    function clearNoteFields(){
-      document.querySelector('#newNoteTitle').value = "";
-      document.querySelector('#newNoteText').value = "";
-    }
-
-    // review this tomorrow and fix it
-    async function displayNote(e){
-
-      alert(`you clicked this ${e}`);
-      const notesData = await fetch(`/api/${e}`).then(r => r.json())
-      console.log(`note message= ${notesData.noteTitle}`)
-
-      document.querySelector('#newNoteTitle').value = notesData.noteTitle;
-      document.querySelector('#newNoteText').value = notesData.noteText;
-
-
-
-    }
-
-    // to hide/display save button 
-    function showSaveButton(){
-
-      let noteTitleValue = document.querySelector('#newNoteTitle').value;
-      let noteMsgValue = document.querySelector('#newNoteText').value;
-
-      if(noteTitleValue !=="" && noteMsgValue !== ""){
-        document.querySelector('#btnSave').classList.remove('d-none');
-      }
-      else{
+    else{
         document.querySelector('#btnSave').classList.add('d-none');
-      }
     }
-
-  
+  }
 
   </script>
 </body>
