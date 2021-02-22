@@ -28,4 +28,4 @@ The following pictures show the application's appearance and functionality:
 
 ## Link to a deployed application:
 
-[please click here]()
+[please click here](https://notetaker-faisal.herokuapp.com/)
